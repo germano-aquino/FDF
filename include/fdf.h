@@ -58,11 +58,13 @@ typedef struct s_data {
 	int	endian;
 }				t_data;
 
-typedef struct s_env 
+typedef struct s_vars 
 {
 	void	*mlx;
 	void	*win;
-}				t_env;
+	t_data	img;
+	t_map	map;
+}				t_vars;
 
 void	ft_mlx_put_pixel(t_data *data, int x, int y, unsigned int color);
 void	ft_draw_line(int x0, int y0, int x1, int y1, t_data *img);
