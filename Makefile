@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/02/16 17:37:36 by grenato-         ###   ########.fr        #
+#    Updated: 2022/02/21 23:09:31 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ C_SOURCE = $(SRC_DIR)/fdf.c\
 			$(SRC_DIR)/get_next_line.c\
 			$(SRC_DIR)/map.c\
 			$(SRC_DIR)/line.c\
-			$(SRC_DIR)/utils.c
+			$(SRC_DIR)/utils.c\
+			$(SRC_DIR)/isometric_projection.c
 
 
 %.o: %.c

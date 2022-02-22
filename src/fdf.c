@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 10:54:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/16 17:35:57 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/21 23:24:11 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_fdf_init(t_vars *vars)
 	vars->img.bits_per_pixel = 32;
 	vars->img.line_length = WIDTH;
 	vars->img.addr = mlx_get_data_addr(vars->img.img, &vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
-
+	vars->scale = SCALE_DEFAULT;
 }
 
 int main (int argc, char *argv[])
@@ -61,10 +61,11 @@ int main (int argc, char *argv[])
 	}
 	ft_get_map(&vars.map, argv[1]);
 	ft_fdf_init(&vars);
-	ft_draw_line(0, 0, WIDTH, HEIGHT, &vars.img);
+/* 	ft_draw_line(0, 0, WIDTH, HEIGHT, &vars.img);
 	ft_draw_line(0, HEIGHT, WIDTH, 0, &vars.img);
 	ft_draw_line(0, HEIGHT / 2, WIDTH, HEIGHT / 2, &vars.img);
-	ft_draw_line(WIDTH / 2, 0, WIDTH / 2, HEIGHT, &vars.img);
+	ft_draw_line(WIDTH / 2, 0, WIDTH / 2, HEIGHT, &vars.img); */
+	ft_iso_projection(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_key_hook(vars.win, ft_close, &vars);
 	mlx_loop(vars.mlx);
