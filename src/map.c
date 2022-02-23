@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:09:13 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/16 17:36:12 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/23 00:02:42 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ void	ft_get_map_width_and_height(t_map *map, char **line, int fd)
 	{
 		map->height++;
 		free(*line);
-		*line = NULL;
 		*line = get_next_line(fd);
 	}
-	close(fd);
 }
 
 void	ft_map_init(t_map *map, int fd)
@@ -75,14 +73,17 @@ void	ft_parse_line_to_map(char *line, t_map *map, int y)
 	x = 0;
 	while (*(split + x) != NULL)
 	{
-		value_color = ft_split(*(split + x), ',');
-		(*(*(map->grid + y) + x)).z = ft_atoi(*value_color);
-		if (*(value_color + 1) == NULL)
-			(*(*(map->grid + y) + x)).color = WHITE;
-		else
-			(*(*(map->grid + y) + x)).color = \
-				(unsigned int)ft_atoi(*(value_color + 1));
-		ft_free_2d_ptr(&value_color);
+		if (**(split + x) != '\n')
+		{
+			value_color = ft_split(*(split + x), ',');
+			(*(*(map->grid + y) + x)).z = ft_atoi(*value_color);
+			if (*(value_color + 1) == NULL)
+				(*(*(map->grid + y) + x)).color = WHITE;
+			else
+				(*(*(map->grid + y) + x)).color = \
+					(unsigned int)ft_atoi(*(value_color + 1));
+			ft_free_2d_ptr(&value_color);
+		}
 		x++;
 	}
 	ft_free_2d_ptr(&split);
@@ -115,8 +116,9 @@ void	ft_get_map(t_map *map, char *str_to_map)
 	if (fd == -1)
 		perror("Error");
 	ft_map_init(map, fd);
+	close(fd);
 	fd = open(str_to_map, O_RDONLY);
-	if (fd == -1)
+	if (fd == -1 || fd == 0)
 		perror("Error");
 	line = get_next_line(fd);
 	i = 0;

@@ -6,36 +6,34 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:08:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/21 23:52:03 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/23 00:41:11 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-#include <stdlib.h>
-#include <math.h>
-#include <mlx.h>
-#include <errno.h>
-#include "color.h"
-#include "get_next_line.h"
-#include "libft.h"
+# include <stdlib.h>
+# include <math.h>
+# include <mlx.h>
+# include <errno.h>
+# include "color.h"
+# include "get_next_line.h"
+# include "libft.h"
 
-#define WIDTH 960
-#define HEIGHT 540
+# define WIDTH 960
+# define HEIGHT 540
 
-#define ESC 27
+# define ESC 27
 
-#define	ISO_ORIGIN_X WIDTH/2
-#define	ISO_ORIGIN_Y 2 * HEIGHT / 3
+# define ISO_ORIGIN_X WIDTH / 3
+# define ISO_ORIGIN_Y HEIGHT / 5
 
-#define M_PI 3.141592653589793238462643383279502884L /* pi */
+# define ISO_X_ANGLE M_PI / 6
+# define ISO_Y_ANGLE 5 * M_PI / 6
+# define ISO_Z_ANGLE 3 * M_PI / 2
 
-#define ISO_X_ANGLE 5 * M_PI / 6
-#define ISO_Y_ANGLE M_PI / 6
-#define ISO_Z_ANGLE 3 * M_PI / 2
-
-#define SCALE_DEFAULT 10
+# define SCALE_DEFAULT 10
 
 typedef struct s_point
 {
@@ -81,11 +79,13 @@ typedef struct s_vars
 }				t_vars;
 
 void	ft_mlx_put_pixel(t_data *data, int x, int y, unsigned int color);
-void	ft_draw_line(int x0, int y0, int x1, int y1, t_data *img);
+void	ft_draw_line(t_point p0, t_point p1, t_data *img);
 void	ft_get_map(t_map *map, char *str_to_map);
 void	ft_free_map(t_map *map);
 void	ft_free_2d_ptr(char ***ptr);
+void	ft_swap(int *x, int *y);
 
 void	ft_iso_projection(t_vars *vars);
+void	ft_print_map(t_vars *vars);
 #endif
 

@@ -6,21 +6,23 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/02/21 23:09:31 by grenato-         ###   ########.fr        #
+#    Updated: 2022/02/22 23:27:10 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 # define the C compiler
-CC = clang
+#CC = clang
+CC = gcc
 
 # define any compile-time flags
-CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=256
+CFLAGS = -Wall -Wextra -Werror -g -D BUFFER_SIZE=256
+
+# library flags
+LDFLAGS = -L. -lXext -lX11 -lm -lz
 
 # name of the project
 NAME = fdf
-
-ANAME = fdf.a
 
 INCLUDE = include
 
@@ -34,27 +36,33 @@ LIBFT_DIR = libft
 
 LIBFT = libft/libft.a
 
-C_SOURCE = $(SRC_DIR)/fdf.c\
-			$(SRC_DIR)/get_next_line.c\
-			$(SRC_DIR)/map.c\
-			$(SRC_DIR)/line.c\
-			$(SRC_DIR)/utils.c\
-			$(SRC_DIR)/isometric_projection.c
+HEADERS = -I/usr/include -I$(MLX_DIR) -I$(INCLUDE) -I$(LIBFT_DIR)
 
+OBJ_DIR = obj
 
-%.o: %.c
-	$(CC) $(CLFLAGS) -I/usr/include -I$(MLX_DIR) -I$(INCLUDE) -I$(LIBFT_DIR) -O3 -c $< -o $@
+SOURCE_FILES = fdf.c get_next_line.c map.c
+SOURCE_FILES += line.c utils.c isometric_projection.c 
 
-OBJ = $(C_SOURCE:.c=.o)
+C_SOURCE = $(addprefix $(SRC_DIR)/, $(SOURCE_FILES))
+
+OBJ = $(C_SOURCE:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CLFLAGS) $(HEADERS) -O3 -c $< -o $@
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(MAKE) -C $(MLX_DIR)
+$(NAME): $(OBJ_DIR) $(LIBFT) $(MLX) $(OBJ)
+	$(CC) $(CFLAGS) $(HEADERS) $(OBJ) -o $(NAME) $(MLX) $(LIBFT) $(LDFLAGS)
+
+$(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
-	cp $(LIBFT) $(ANAME)
-	ar rcs $(ANAME) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(ANAME) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -I$(INCLUDE) -lXext -lX11 -lm -lz -o $(NAME)
+
+$(MLX):
+	$(MAKE) -C $(MLX_DIR)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 bonus: all
 
@@ -64,8 +72,7 @@ clean:
 	$(MAKE) -C ${LIBFT_DIR} clean
 
 fclean: clean
-	rm -rf ${NAME} ${ANAME}
-	$(MAKE) -C ${MLX_DIR} fclean
+	rm -rf ${NAME}
 	$(MAKE) -C ${LIBFT_DIR} fclean
 
 re: fclean all
