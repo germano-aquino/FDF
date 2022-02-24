@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:09:13 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/23 00:02:42 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/24 01:43:56 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void	ft_map_init(t_map *map, int fd)
 	map->height = 0;
 	map->width = 0;
 	map->grid = NULL;
+	map->axis_angle = ft_init_axis_angle();
+	map->origin.x = ISO_ORIGIN_X;
+	map->origin.y = ISO_ORIGIN_Y;
 	line = get_next_line(fd);
 	ft_get_map_width_and_height(map, &line, fd);
 	map->grid = (t_point **)malloc(sizeof(t_point *) * map->height);
@@ -104,18 +107,21 @@ void	ft_free_map(t_map *map)
 	}
 	free(map->grid);
 	map->grid = NULL;
+	free(map->axis_angle);
+	map->axis_angle = NULL;
 }
 
-void	ft_get_map(t_map *map, char *str_to_map)
+t_map	ft_get_map(char *str_to_map)
 {
 	int		fd;
 	int		i;
 	char	*line;
+	t_map	map;
 
 	fd = open(str_to_map, O_RDONLY);
 	if (fd == -1)
 		perror("Error");
-	ft_map_init(map, fd);
+	ft_map_init(&map, fd);
 	close(fd);
 	fd = open(str_to_map, O_RDONLY);
 	if (fd == -1 || fd == 0)
@@ -124,10 +130,11 @@ void	ft_get_map(t_map *map, char *str_to_map)
 	i = 0;
 	while (line != NULL)
 	{
-		ft_parse_line_to_map(line, map, i);
+		ft_parse_line_to_map(line, &map, i);
 		free(line);
 		line = get_next_line(fd);
 		i++;
 	}
 	close(fd);
+	return (map);
 }

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 00:06:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/23 00:49:17 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/24 01:46:33 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,17 @@ t_point	ft_get_vector_point(double angle, int norm, t_point orig)
 
 t_point	ft_get_iso_point(t_vars *vars, t_point pt)
 {
-	t_point	origin;
 	t_point	new_point;
+	double	*axis_angle;
 	int		scale;
 
 	scale = vars->scale;
-	origin.x = ISO_ORIGIN_X;
-	origin.y = ISO_ORIGIN_Y;
-	new_point = ft_get_vector_point(ISO_X_ANGLE, pt.x * 2 * scale, origin);
-	new_point = ft_get_vector_point(ISO_Y_ANGLE, pt.y * 2 * scale, new_point);
-	new_point = ft_get_vector_point(ISO_Z_ANGLE, pt.z * scale / 2, new_point);
+	axis_angle = vars->map.axis_angle;
+	new_point = ft_get_vector_point(axis_angle[0], pt.x * 2 * scale, vars->map.origin);
+	new_point = ft_get_vector_point(axis_angle[1], pt.y * 2 * scale, new_point);
+	new_point = ft_get_vector_point(axis_angle[2], pt.z * scale / 2, new_point);
 	new_point.z = pt.z;
-	new_point.color = RED;
+	new_point.color = WHITE;
 	return (new_point);
 }
 

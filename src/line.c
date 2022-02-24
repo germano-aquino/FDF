@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 00:31:15 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/23 00:42:54 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/23 23:48:59 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_line	ft_init_line(t_point p0, t_point p1)
 	else
 		line.stepy = 1;
 	line.inv = 0;
+	line.color = p0.color;
 	return (line);
 }
 
@@ -49,9 +50,9 @@ void	ft_invert_x_and_y_line(t_line *line)
 void	ft_put_line_pixel(t_data *img, t_line *line)
 {
 	if (!line->inv)
-		ft_mlx_put_pixel(img, line->p0.x, line->p0.y, WHITE);
+		ft_mlx_put_pixel(img, line->p0.x, line->p0.y, line->color);
 	else
-		ft_mlx_put_pixel(img, line->p0.y, line->p0.x, WHITE);
+		ft_mlx_put_pixel(img, line->p0.y, line->p0.x, line->color);
 }
 
 void	ft_line_bresenham(t_line *line, t_data *img)

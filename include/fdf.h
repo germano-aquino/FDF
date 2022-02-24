@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:08:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/23 00:41:11 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:40:55 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 # include "color.h"
 # include "get_next_line.h"
 # include "libft.h"
+# include "keycode.h"
 
 # define WIDTH 960
 # define HEIGHT 540
-
-# define ESC 27
 
 # define ISO_ORIGIN_X WIDTH / 3
 # define ISO_ORIGIN_Y HEIGHT / 5
@@ -45,19 +44,22 @@ typedef struct s_point
 
 typedef struct s_line
 {
-	t_point	p0;
-	t_point	p1;
-	int		dx;
-	int		dy;
-	int		stepx;
-	int		stepy;
-	int		inv;
+	t_point			p0;
+	t_point			p1;
+	int				dx;
+	int				dy;
+	int				stepx;
+	int				stepy;
+	int				inv;
+	unsigned int	color;
 }				t_line;
 
 typedef struct s_map
 {
 	int		height;
 	int		width;
+	double	*axis_angle;
+	t_point	origin;
 	t_point	**grid;
 }				t_map;
 
@@ -80,12 +82,20 @@ typedef struct s_vars
 
 void	ft_mlx_put_pixel(t_data *data, int x, int y, unsigned int color);
 void	ft_draw_line(t_point p0, t_point p1, t_data *img);
-void	ft_get_map(t_map *map, char *str_to_map);
+t_map	ft_get_map(char *str_to_map);
 void	ft_free_map(t_map *map);
 void	ft_free_2d_ptr(char ***ptr);
 void	ft_swap(int *x, int *y);
 
 void	ft_iso_projection(t_vars *vars);
 void	ft_print_map(t_vars *vars);
-#endif
 
+int		ft_key_action(int keycode, t_vars *vars);
+void	ft_close(t_vars *vars);
+t_data	ft_init_image(void *mlx);
+
+void	ft_translate_origin(t_vars *vars, int keycode);
+void	ft_rotate_axis(double *axis_angle, int keycode);
+double	*ft_init_axis_angle();
+
+#endif

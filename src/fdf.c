@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 10:54:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/23 00:48:51 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:54:25 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,36 @@ void	ft_mlx_put_pixel(t_data *data, int x, int y, unsigned int color)
 	}
 }
 
-int	ft_close(int keycode, t_vars *vars)
+int	ft_key_action(int keycode, t_vars *vars)
 {
-	if ((unsigned char)keycode == ESC)
-	{
-		ft_free_map(&vars->map);
-		mlx_destroy_window(vars->mlx, vars->win);
-		mlx_destroy_image(vars->mlx, vars->img.img);
-		mlx_destroy_display(vars->mlx);
-		free(vars->mlx);
-		vars->mlx = NULL;
-		exit(0);
-	}
+	unsigned char	c;
+
+	c = (unsigned char)keycode;
+	if (keycode == ESC)
+		ft_close(vars);
+	if (keycode == UP || keycode == DOWN || keycode == RIGHT || keycode == LEFT)
+		ft_translate_origin(vars, keycode);
+	if (c == 'q' || c == 'w' || c == 'e' || c == 'a' || c == 's' || c == 'd')
+		//ft_rotate_axis(&vars->map.axis_angle, keycode);
 	return (0);
+}
+
+void	ft_close(t_vars *vars)
+{
+	ft_free_map(&vars->map);
+	mlx_destroy_window(vars->mlx, vars->win);
+	mlx_destroy_image(vars->mlx, vars->img.img);
+	mlx_destroy_display(vars->mlx);
+	free(vars->mlx);
+	vars->mlx = NULL;
+	exit(0);
 }
 
 void	ft_fdf_init(t_vars *vars)
 {
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "FDF");
-	vars->img.img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
-	vars->img.bits_per_pixel = 32;
-	vars->img.line_length = WIDTH;
-	vars->img.addr = mlx_get_data_addr(vars->img.img, \
-		&vars->img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
+	vars->img = ft_init_image(vars->mlx);
 	vars->scale = SCALE_DEFAULT;
 }
 
@@ -61,11 +67,12 @@ int	main(int argc, char *argv[])
 		ft_putstr_fd("Please inform the path to map.\n", 1);
 		exit(0);
 	}
-	ft_get_map(&vars.map, argv[1]);
+	vars.map = ft_get_map(argv[1]);
 	ft_fdf_init(&vars);
 	ft_iso_projection(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
-	mlx_key_hook(vars.win, ft_close, &vars);
+	mlx_key_hook(vars.win, ft_key_action, &vars);
+	mlx_mouse_hook(vars->win, ft_mouse_action, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }
