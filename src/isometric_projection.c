@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 00:06:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/24 01:46:33 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/01 00:40:31 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ t_point	ft_get_iso_point(t_vars *vars, t_point pt)
 	int		scale;
 
 	scale = vars->scale;
-	axis_angle = vars->map.axis_angle;
-	new_point = ft_get_vector_point(axis_angle[0], pt.x * 2 * scale, vars->map.origin);
-	new_point = ft_get_vector_point(axis_angle[1], pt.y * 2 * scale, new_point);
-	new_point = ft_get_vector_point(axis_angle[2], pt.z * scale / 2, new_point);
+	axis_angle = ft_get_axis_angle(&vars->map);
+	new_point = ft_get_vector_point(axis_angle[0], pt.x * scale, vars->map.origin);
+	new_point = ft_get_vector_point(axis_angle[1], pt.y * scale, new_point);
+	new_point = ft_get_vector_point(axis_angle[2], pt.z * scale / 4, new_point);
 	new_point.z = pt.z;
-	new_point.color = WHITE;
+	new_point.color = pt.color;
+	free(axis_angle);
+	axis_angle = NULL;
 	return (new_point);
 }
 
@@ -49,6 +51,7 @@ void	ft_get_iso_grid(t_vars *vars)
 		x = 0;
 		while (x < vars->map.width)
 		{
+			map_pt.color = vars->map.grid[y][x].color;
 			map_pt.x = x;
 			map_pt.y = y;
 			map_pt.z = vars->map.grid[y][x].z;

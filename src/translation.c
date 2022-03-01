@@ -27,3 +27,17 @@ void	ft_translate_origin(t_vars *vars, int direction)
 		origin->x -= step;
 	ft_reload_image(vars);
 }
+
+int		ft_mouse_action(int button, int x, int y, t_vars *vars)
+{
+	//handler of mouse_hook to zoom in or zoom out the map
+	int	step;
+
+	step = 1;
+	if (button == SCROLL_UP)
+		vars->scale += step;
+	if (button == SCROLL_DOWN)
+		vars->scale -= step;
+	ft_reload_image(vars);	
+	return (0);
+}

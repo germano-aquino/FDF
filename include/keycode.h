@@ -7,4 +7,7 @@
 # define DOWN 65364
 # define RIGHT 65363
 
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
+
 #endif

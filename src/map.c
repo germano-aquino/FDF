@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:09:13 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/24 01:43:56 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/28 23:59:15 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ void	ft_map_init(t_map *map, int fd)
 	map->height = 0;
 	map->width = 0;
 	map->grid = NULL;
-	map->axis_angle = ft_init_axis_angle();
-	map->origin.x = ISO_ORIGIN_X;
-	map->origin.y = ISO_ORIGIN_Y;
+	map->vec_base = ft_init_origin(map);
+	map->axis_angle = ft_get_axis_angle(map);
 	line = get_next_line(fd);
 	ft_get_map_width_and_height(map, &line, fd);
 	map->grid = (t_point **)malloc(sizeof(t_point *) * map->height);
@@ -85,11 +84,11 @@ void	ft_parse_line_to_map(char *line, t_map *map, int y)
 			else
 				(*(*(map->grid + y) + x)).color = \
 					(unsigned int)ft_atoi(*(value_color + 1));
-			ft_free_2d_ptr(&value_color);
+			ft_free_2d_char_ptr(&value_color);
 		}
 		x++;
 	}
-	ft_free_2d_ptr(&split);
+	ft_free_2d_char_ptr(&split);
 }
 
 void	ft_free_map(t_map *map)
@@ -109,6 +108,7 @@ void	ft_free_map(t_map *map)
 	map->grid = NULL;
 	free(map->axis_angle);
 	map->axis_angle = NULL;
+	ft_free_2d_double_ptr(&map->vec_base);
 }
 
 t_map	ft_get_map(char *str_to_map)
@@ -118,14 +118,10 @@ t_map	ft_get_map(char *str_to_map)
 	char	*line;
 	t_map	map;
 
-	fd = open(str_to_map, O_RDONLY);
-	if (fd == -1)
-		perror("Error");
+	fd = ft_open_map_file(str_to_map);
 	ft_map_init(&map, fd);
 	close(fd);
-	fd = open(str_to_map, O_RDONLY);
-	if (fd == -1 || fd == 0)
-		perror("Error");
+	fd = ft_open_map_file(str_to_map);
 	line = get_next_line(fd);
 	i = 0;
 	while (line != NULL)

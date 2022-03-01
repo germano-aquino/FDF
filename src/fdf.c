@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 10:54:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/24 17:54:25 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/02/28 18:10:16 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_key_action(int keycode, t_vars *vars)
 	if (keycode == UP || keycode == DOWN || keycode == RIGHT || keycode == LEFT)
 		ft_translate_origin(vars, keycode);
 	if (c == 'q' || c == 'w' || c == 'e' || c == 'a' || c == 's' || c == 'd')
-		//ft_rotate_axis(&vars->map.axis_angle, keycode);
+		ft_rotate_axis(vars, keycode);
 	return (0);
 }
 
@@ -72,7 +72,7 @@ int	main(int argc, char *argv[])
 	ft_iso_projection(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img.img, 0, 0);
 	mlx_key_hook(vars.win, ft_key_action, &vars);
-	mlx_mouse_hook(vars->win, ft_mouse_action, &vars);
+	mlx_mouse_hook(vars.win, ft_mouse_action, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }
