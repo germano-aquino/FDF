@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   translation.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/01 22:20:00 by grenato-          #+#    #+#             */
+/*   Updated: 2022/03/01 22:20:58 by grenato-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fdf.h>
 #include <stdio.h>
 
@@ -12,7 +24,7 @@ void	ft_reload_image(t_vars *vars)
 
 void	ft_translate_origin(t_vars *vars, int direction)
 {
-	int step;
+	int		step;
 	t_point	*origin;
 
 	origin = &vars->map.origin;
@@ -28,9 +40,8 @@ void	ft_translate_origin(t_vars *vars, int direction)
 	ft_reload_image(vars);
 }
 
-int		ft_mouse_action(int button, int x, int y, t_vars *vars)
+int	ft_mouse_action(int button, int x, int y, t_vars *vars)
 {
-	//handler of mouse_hook to zoom in or zoom out the map
 	int	step;
 
 	step = 1;
@@ -38,6 +49,6 @@ int		ft_mouse_action(int button, int x, int y, t_vars *vars)
 		vars->scale += step;
 	if (button == SCROLL_DOWN)
 		vars->scale -= step;
-	ft_reload_image(vars);	
+	ft_reload_image(vars);
 	return (0);
 }

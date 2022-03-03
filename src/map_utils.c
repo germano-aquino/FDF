@@ -6,22 +6,11 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 17:39:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/28 23:43:54 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/01 22:19:20 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
-
-
-int		ft_open_map_file(char *path_to_map)
-{
-	int	fd;
-
-	fd = open(path_to_map, O_RDONLY);
-	if (fd == 0 || fd == -1)
-		perror("Error");
-	return (fd);
-}
 
 double	ft_get_angle_between_vectors(double *proj_base, double u_vec[3])
 {
@@ -42,25 +31,34 @@ double	ft_get_angle_between_vectors(double *proj_base, double u_vec[3])
 	return (alpha);
 }
 
-double	**ft_init_origin(t_map *map)
+double	**ft_init_base(void)
 {
-	int	i;
-	int	j;
-	double	**vec_base;
+	double	**base;
+	int		i;
 
-	vec_base = (double **)malloc(sizeof(double *) * 4);
-	if (vec_base == NULL)
+	base = (double **)malloc(sizeof(double *) * 4);
+	if (base == NULL)
 		perror("Error");
 	i = -1;
 	while (++i < 3)
 	{
-		vec_base[i] = (double *)malloc(sizeof(double) * 3);
-		if (vec_base[i] == NULL)
+		base[i] = (double *)malloc(sizeof(double) * 3);
+		if (base[i] == NULL)
 			perror("Error");
 	}
-	vec_base[i] = NULL;
+	base[i] = NULL;
+	return (base);
+}
+
+double	**ft_init_origin(t_map *map)
+{
+	int		i;
+	int		j;
+	double	**vec_base;
+
+	vec_base = ft_init_base();
 	i = -1;
-	while(++i < 3)
+	while (++i < 3)
 	{
 		j = -1;
 		while (++j < 3)
@@ -98,30 +96,24 @@ double	*ft_get_axis_angle(t_map *map)
 
 double	**ft_project_axis_onto_plane(double **base)
 {
-	/*P' = P - P dot*/
 	int		i;
 	int		j;
 	double	**proj_base;
 	double	n_vec[3];
 
-	proj_base = (double **)malloc(sizeof(double *) * 4);
-	if (proj_base == NULL)
-		perror("Error");
+	proj_base = ft_init_base();
 	i = -1;
 	while (++i < 3)
-	{
-		proj_base[i] = (double *)malloc(sizeof(double) * 3);
-		if (proj_base[i] == NULL)
-			perror("Error");
 		n_vec[i] = 1;
-	}
-	proj_base[i] = NULL;
 	i = -1;
 	while (++i < 3)
 	{
 		j = -1;
-		while (++j < 3) \
-			proj_base[i][j] = base[i][j] - (ft_dot_product(base[i], n_vec) * n_vec[j]) / 3;
+		while (++j < 3)
+		{
+			proj_base[i][j] = base[i][j] - \
+				(ft_dot_product(base[i], n_vec) * n_vec[j]) / 3;
+		}
 	}
 	return (proj_base);
 }

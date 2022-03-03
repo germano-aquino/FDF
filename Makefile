@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/02/28 17:39:31 by grenato-         ###   ########.fr        #
+#    Updated: 2022/03/01 22:42:33 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ OBJ_DIR = obj
 
 SOURCE_FILES = fdf.c get_next_line.c map.c translation.c
 SOURCE_FILES += line.c utils.c isometric_projection.c 
-SOURCE_FILES += rotation.c map_utils.c
+SOURCE_FILES += rotation.c map_utils.c vector.c
 
 
 C_SOURCE = $(addprefix $(SRC_DIR)/, $(SOURCE_FILES))

@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 00:06:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/01 00:40:31 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/01 22:04:01 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_point	ft_get_iso_point(t_vars *vars, t_point pt)
 
 	scale = vars->scale;
 	axis_angle = ft_get_axis_angle(&vars->map);
-	new_point = ft_get_vector_point(axis_angle[0], pt.x * scale, vars->map.origin);
+	new_point = ft_get_vector_point(axis_angle[0], pt.x * scale, \
+		vars->map.origin);
 	new_point = ft_get_vector_point(axis_angle[1], pt.y * scale, new_point);
 	new_point = ft_get_vector_point(axis_angle[2], pt.z * scale / 4, new_point);
 	new_point.z = pt.z;

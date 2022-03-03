@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:08:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/28 23:44:30 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/01 22:30:28 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int		ft_mouse_action(int button, int x, int y, t_vars *vars);
 int		ft_key_action(int keycode, t_vars *vars);
 void	ft_close(t_vars *vars);
 t_data	ft_init_image(void *mlx);
+double	**ft_init_base(void);
 
 void	ft_rotate_axis(t_vars *vars, int keycode);
 double	ft_dot_product(double vec1[3], double vec2[3]);
