@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:08:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/01 22:30:28 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/04 21:18:38 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@
 # define ISO_Y_ANGLE 5 * M_PI / 6
 # define ISO_Z_ANGLE 3 * M_PI / 2
 
-# define DELTA M_PI / 60
+# define DELTA M_PI / 30
 # define SCALE_DEFAULT 10
 
 typedef struct s_quaternion
 {
 	double	vec[3];
-	double	real;
+	double	re;
 }				t_quaternion;
 
 
@@ -120,5 +120,6 @@ double	**ft_init_origin(t_map *map);
 double	*ft_get_axis_angle(t_map *map);
 double	**ft_project_axis_onto_plane(double **base);
 int		ft_open_map_file(char *path_to_map);
+t_quaternion ft_quaternion_mult(t_quaternion x, t_quaternion y);
 
 #endif
