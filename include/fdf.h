@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:08:32 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/04 21:18:38 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:27:02 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 # define WIDTH 960
 # define HEIGHT 540
 
+# define X_PROJ 0
+# define Y_PROJ 1
+# define Z_PROJ 2
+# define ISO_PROJ 3
 # define ISO_ORIGIN_X WIDTH / 3
 # define ISO_ORIGIN_Y HEIGHT / 5
 
@@ -33,7 +37,7 @@
 # define ISO_Y_ANGLE 5 * M_PI / 6
 # define ISO_Z_ANGLE 3 * M_PI / 2
 
-# define DELTA M_PI / 30
+# define DELTA M_PI / 60
 # define SCALE_DEFAULT 10
 
 typedef struct s_quaternion
@@ -41,7 +45,6 @@ typedef struct s_quaternion
 	double	vec[3];
 	double	re;
 }				t_quaternion;
-
 
 typedef struct s_point
 {
@@ -51,10 +54,19 @@ typedef struct s_point
 	unsigned int	color;
 }				t_point;
 
+typedef struct s_rectangle
+{
+	t_point			p0;
+	t_point			p1;
+	int				width;
+	int				height;
+}				t_rectangle;
+
 typedef struct s_line
 {
 	t_point			p0;
 	t_point			p1;
+	t_point			init;
 	int				dx;
 	int				dy;
 	int				stepx;
@@ -67,6 +79,8 @@ typedef struct s_map
 {
 	int		height;
 	int		width;
+	int		min_z;
+	int		max_z;
 	double	**vec_base;
 	double	**proj_base;
 	double	*axis_angle;
@@ -89,6 +103,7 @@ typedef struct s_vars
 	t_data	img;
 	t_map	map;
 	int		scale;
+	int		proj;
 }				t_vars;
 
 void	ft_mlx_put_pixel(t_data *data, int x, int y, unsigned int color);
@@ -121,5 +136,15 @@ double	*ft_get_axis_angle(t_map *map);
 double	**ft_project_axis_onto_plane(double **base);
 int		ft_open_map_file(char *path_to_map);
 t_quaternion ft_quaternion_mult(t_quaternion x, t_quaternion y);
+
+void	ft_store_min_and_max_z(t_map *map, int z);
+unsigned int	ft_get_color(t_map *map, int z);
+unsigned int	ft_get_line_color(t_line *line);
+
+void	ft_show_instructions(t_vars *vars);
+void	ft_show_projection(t_vars *vars, unsigned char c);
+void	ft_para_x_projection(t_map *map, int scale, t_data *img);
+void	ft_para_y_projection(t_map *map, int scale, t_data *img);
+void	ft_para_z_projection(t_map *map, int scale, t_data *img);
 
 #endif

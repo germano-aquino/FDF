@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:09:13 by grenato-          #+#    #+#             */
-/*   Updated: 2022/02/28 23:59:15 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/06 21:04:15 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	ft_map_init(t_map *map, int fd)
 	map->height = 0;
 	map->width = 0;
 	map->grid = NULL;
+	map->min_z = 0x7FFFFFFF;
+	map->max_z = 0x80000000;
 	map->vec_base = ft_init_origin(map);
 	map->axis_angle = ft_get_axis_angle(map);
 	line = get_next_line(fd);
@@ -85,6 +87,7 @@ void	ft_parse_line_to_map(char *line, t_map *map, int y)
 				(*(*(map->grid + y) + x)).color = \
 					(unsigned int)ft_atoi(*(value_color + 1));
 			ft_free_2d_char_ptr(&value_color);
+			ft_store_min_and_max_z(map, map->grid[y][x].z);
 		}
 		x++;
 	}

@@ -1,6 +1,8 @@
-#ifndef	ASCII_H
-# define	ASCII_H
+#ifndef	KEYCODE_H
+# define	KEYCODE_H
 
+# define F1 65470
+# define TAB 65289
 # define ESC 65307
 # define UP 65362
 # define LEFT 65361

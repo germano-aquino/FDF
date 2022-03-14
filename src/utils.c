@@ -6,48 +6,12 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:20:56 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/01 22:22:38 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:08:33 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 #include <stdio.h>
-
-void	ft_free_2d_char_ptr(char ***ptr)
-{
-	char	**temp;
-	int		i;
-
-	temp = *ptr;
-	i = 0;
-	while (*temp != NULL)
-	{
-		free(*temp);
-		*temp = NULL;
-		i++;
-		temp = (*ptr + i);
-	}
-	free(*ptr);
-	*ptr = NULL;
-}
-
-void	ft_free_2d_double_ptr(double ***ptr)
-{
-	double	**temp;
-	int		i;
-
-	temp = *ptr;
-	i = 0;
-	while (*temp != NULL)
-	{
-		free(*temp);
-		*temp = NULL;
-		i++;
-		temp = (*ptr + i);
-	}
-	free(*ptr);
-	*ptr = NULL;
-}
 
 void	ft_swap(int *x, int *y)
 {
@@ -78,4 +42,12 @@ int	ft_open_map_file(char *path_to_map)
 	if (fd == 0 || fd == -1)
 		perror("Error");
 	return (fd);
+}
+
+void	ft_store_min_and_max_z(t_map *map, int z)
+{
+	if (map->min_z > z)
+		map->min_z = z;
+	if (map->max_z < z)
+		map->max_z = z;
 }

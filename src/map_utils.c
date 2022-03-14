@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 17:39:18 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/01 22:19:20 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:08:29 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ double	ft_get_angle_between_vectors(double *proj_base, double u_vec[3])
 	double	alpha;
 	double	*w;
 	double	n_vec[3];
+	double	cosin;
 	int		i;
 
 	i = -1;
 	while (++i < 3)
 		n_vec[i] = 1;
-	alpha = acos(ft_dot_product(proj_base, u_vec) / ft_get_norm(proj_base));
+	cosin = floor(10000 * ft_dot_product(proj_base, u_vec)) * 1.0 / \
+		(ceil(ft_get_norm(proj_base) * 10000));
+	alpha = acos(cosin);
 	w = ft_cross_product(u_vec, proj_base);
 	if (ft_dot_product(w, n_vec) < 0)
 		alpha = 2 * M_PI - alpha;

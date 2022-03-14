@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 00:31:15 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/03 20:26:01 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/05 01:02:17 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_line	ft_init_line(t_point p0, t_point p1)
 	t_line	line;
 
 	line.p0 = p0;
+	line.init = p0;
 	line.p1 = p1;
 	line.dx = (p1.x - p0.x) << 1;
 	line.dy = (p1.y - p0.y) << 1;
@@ -41,6 +42,7 @@ t_line	ft_init_line(t_point p0, t_point p1)
 
 void	ft_invert_x_and_y_line(t_line *line)
 {
+	ft_swap(&(line->init.x), &(line->init.y));
 	ft_swap(&(line->p0.x), &(line->p0.y));
 	ft_swap(&(line->p1.x), &(line->p1.y));
 	ft_swap(&(line->stepx), &(line->stepy));
@@ -59,7 +61,7 @@ void	ft_line_bresenham(t_line *line, t_data *img)
 {
 	int	fraction;
 
-	if (line->dx < line->dy)
+	if (line->dx <= line->dy)
 	{
 		line->inv = 1;
 		ft_invert_x_and_y_line(line);
@@ -75,6 +77,7 @@ void	ft_line_bresenham(t_line *line, t_data *img)
 		}
 		line->p0.x += line->stepx;
 		fraction += line->dy;
+		line->color = ft_get_line_color(line);
 		ft_put_line_pixel(img, line);
 	}
 }

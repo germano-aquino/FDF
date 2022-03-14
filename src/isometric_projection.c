@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 00:06:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/03 20:20:13 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/07 19:19:31 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	ft_get_iso_grid(t_vars *vars)
 		x = 0;
 		while (x < vars->map.width)
 		{
-			map_pt.color = vars->map.grid[y][x].color;
 			map_pt.x = x;
 			map_pt.y = y;
 			map_pt.z = vars->map.grid[y][x].z;
+			map_pt.color = ft_get_color(&vars->map, map_pt.z);
 			vars->map.grid[y][x] = ft_get_iso_point(vars, map_pt);
 			x++;
 		}

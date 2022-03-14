@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 22:20:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/01 22:20:58 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:26:39 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,30 @@ void	ft_reload_image(t_vars *vars)
 {
 	mlx_destroy_image(vars->mlx, vars->img.img);
 	vars->img = ft_init_image(vars->mlx);
-	ft_iso_projection(vars);
+	if (vars->proj == 0)
+		ft_iso_projection(vars);
+	if (vars->proj == 1)
+		ft_para_x_projection(&vars->map, vars->scale, &vars->img);
+	if (vars->proj == 2)
+		ft_para_y_projection(&vars->map, vars->scale, &vars->img);
+	if (vars->proj == 3)
+		ft_para_z_projection(&vars->map, vars->scale, &vars->img);
 	mlx_clear_window(vars->mlx, vars->win);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+}
+
+void	ft_show_projection(t_vars *vars, unsigned char c)
+{
+	vars->map.vec_base = ft_init_origin(&vars->map);
+	if (c == '\t' || c == 'i')
+		vars->proj = 0;
+	if (c == 'x')
+		vars->proj = 1;
+	if (c == 'y')
+		vars->proj = 2;
+	if (c == 'z')
+		vars->proj = 3;
+	ft_reload_image(vars);
 }
 
 void	ft_translate_origin(t_vars *vars, int direction)
