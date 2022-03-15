@@ -2,7 +2,6 @@ checkered.c
 draw.c
 mlx_linux
 libft
-test_maps
 valgrind-out.txt
 obj
 .vscode
