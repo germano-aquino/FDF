@@ -6,14 +6,14 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/03/14 19:07:01 by grenato-         ###   ########.fr        #
+#    Updated: 2022/04/04 18:30:17 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 # define the C compiler
-#CC = clang
-CC = gcc
+CC = clang
+#CC = gcc
 
 # define any compile-time flags
 CFLAGS = -Wall -Wextra -Werror -g -D BUFFER_SIZE=256
