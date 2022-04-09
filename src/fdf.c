@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 10:54:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/06 01:13:22 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/23 20:23:43 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,26 @@ int	ft_key_action(int keycode, t_vars *vars)
 		ft_rotate_axis(vars, keycode);
 	if (c == 'i' || keycode == TAB || c == 'x' || c == 'y' || c == 'z')
 		ft_show_projection(vars, c);
+	if (keycode == PLUS || keycode == MINUS)
+		ft_set_scale(vars, keycode);
 	if (keycode == F1)
 		ft_show_instructions(vars);
 	return (0);
 }
 
-void	ft_close(t_vars *vars)
+int	ft_close(t_vars *vars)
 {
 	ft_free_map(&vars->map);
-	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_image(vars->mlx, vars->img.img);
-	mlx_destroy_display(vars->mlx);
-	free(vars->mlx);
-	vars->mlx = NULL;
+	if (vars->mlx != NULL)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		mlx_destroy_image(vars->mlx, vars->img.img);
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+		vars->mlx = NULL;
+	}
 	exit(0);
+	return (0);
 }
 
 void	ft_fdf_init(t_vars *vars)
@@ -75,6 +81,7 @@ int	main(int argc, char *argv[])
 	ft_fdf_init(&vars);
 	ft_show_instructions(&vars);
 	mlx_key_hook(vars.win, ft_key_action, &vars);
+	mlx_hook(vars.win, DESTROY_NOTIFY, NO_EVENT_MASK, ft_close, &vars);
 	mlx_mouse_hook(vars.win, ft_mouse_action, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

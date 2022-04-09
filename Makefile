@@ -6,7 +6,7 @@
 #    By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 19:19:45 by grenato-          #+#    #+#              #
-#    Updated: 2022/04/04 18:30:17 by grenato-         ###   ########.fr        #
+#    Updated: 2022/03/26 15:51:22 by grenato-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror -g -D BUFFER_SIZE=256
 
 # library flags
-LDFLAGS = -L. -lXext -lX11 -lm -lz
+LDFLAGS = -L. -lz -lm -lmlx -lXext -lX11
 
 # name of the project
 NAME = fdf
@@ -28,15 +28,11 @@ INCLUDE = include
 
 SRC_DIR = src
 
-MLX_DIR = mlx_linux
-
-MLX = mlx_linux/libmlx_Linux.a
-
 LIBFT_DIR = libft
 
 LIBFT = libft/libft.a
 
-HEADERS = -I/usr/include -I$(MLX_DIR) -I$(INCLUDE) -I$(LIBFT_DIR)
+HEADERS = -I/usr/include -I$(INCLUDE) -I$(LIBFT_DIR)
 
 OBJ_DIR = obj
 
@@ -55,14 +51,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(LIBFT) $(MLX) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADERS) $(OBJ) -o $(NAME) $(MLX) $(LIBFT) $(LDFLAGS)
+$(NAME): $(OBJ_DIR) $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(HEADERS) $(OBJ) -o $(NAME) $(LIBFT) $(LDFLAGS)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
-
-$(MLX):
-	$(MAKE) -C $(MLX_DIR)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -71,7 +64,6 @@ bonus: all
 
 clean:
 	rm -rf $(OBJ)
-	$(MAKE) -C ${MLX_DIR} clean
 	$(MAKE) -C ${LIBFT_DIR} clean
 
 fclean: clean

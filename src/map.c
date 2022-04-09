@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 11:09:13 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/06 21:04:15 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/20 11:54:54 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ft_map_init(t_map *map, int fd)
 	map->grid = NULL;
 	map->min_z = 0x7FFFFFFF;
 	map->max_z = 0x80000000;
+	if (map->vec_base != NULL)
+		ft_free_2d_double_ptr(&map->vec_base);
 	map->vec_base = ft_init_origin(map);
 	map->axis_angle = ft_get_axis_angle(map);
 	line = get_next_line(fd);
@@ -109,9 +111,12 @@ void	ft_free_map(t_map *map)
 	}
 	free(map->grid);
 	map->grid = NULL;
-	free(map->axis_angle);
+	if (map->axis_angle != NULL)
+		free(map->axis_angle);
 	map->axis_angle = NULL;
-	ft_free_2d_double_ptr(&map->vec_base);
+	if (map->vec_base != NULL)
+		ft_free_2d_double_ptr(&map->vec_base);
+	map->vec_base = NULL;
 }
 
 t_map	ft_get_map(char *str_to_map)
@@ -121,6 +126,8 @@ t_map	ft_get_map(char *str_to_map)
 	char	*line;
 	t_map	map;
 
+	map.vec_base = NULL;
+	map.axis_angle = NULL;
 	fd = ft_open_map_file(str_to_map);
 	ft_map_init(&map, fd);
 	close(fd);

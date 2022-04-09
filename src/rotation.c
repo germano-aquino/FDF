@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 22:23:00 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/06 21:12:50 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/23 20:26:08 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 void	ft_init_quaternion(t_quaternion *q, t_quaternion *conj, \
 		int up_or_down, double *vec)
 {
-	int	i;
+	int		i;
+	double	delta;
 
 	i = -1;
+	delta = M_PI / 60;
 	while (++i < 3)
 	{
-		q->vec[i] = vec[i] * sin((-2 * (up_or_down % 2) + 1) * DELTA / 2) \
+		q->vec[i] = vec[i] * sin((-2 * (up_or_down % 2) * 1.0 + 1) * delta / 2) \
 			/ ft_get_norm(vec);
 		conj->vec[i] = -q->vec[i];
 	}
-	q->re = cos((-2 * (up_or_down % 2) + 1) * DELTA / 2);
+	q->re = cos((-2 * (up_or_down % 2) * 1.0 + 1) * delta / 2);
 	conj->re = q->re;
 }
 

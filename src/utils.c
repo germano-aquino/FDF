@@ -6,7 +6,7 @@
 /*   By: grenato- <grenato-@student.42sp.org.br     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:20:56 by grenato-          #+#    #+#             */
-/*   Updated: 2022/03/14 19:08:33 by grenato-         ###   ########.fr       */
+/*   Updated: 2022/03/23 20:23:32 by grenato-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	ft_open_map_file(char *path_to_map)
 
 	fd = open(path_to_map, O_RDONLY);
 	if (fd == 0 || fd == -1)
+	{
 		perror("Error");
+		exit(0);
+	}
 	return (fd);
 }
 
